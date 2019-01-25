@@ -1,0 +1,26 @@
+Data Structure-  
+----------------------------------------------------------------------------------------------------------------------------------------------
+We need a data Structure which can store a node with Multiple child. Since Binary Tree stores only two child we can't consider it.
+We can use B Tree or B+ Tree since they are tree structures & they allow multi child nodes in tree.
+
+Which one is better B Tree or B+ tree?
+Ref- https://www.javatpoint.com/b-plus-tree
+After reading the references I've come to conclusion that B+ tree is more suitable for my requirement. Below are the consideration points-
+-> Search is faster since all the data is present in leaf nodes.
+-> Since leaf nodes are connected we don't need to traverse a tree. Traversing a tree is as simple as traversion a list.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Data Structure/ Approach to store the status of each job-
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+How do you trigger the scripts based on the dependency? (Note- This needs to consider since, we can't traverse the tree everytime we need to find the dependency)
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+How to execute & maintain scripts in parallel?
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+
