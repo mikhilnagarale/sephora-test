@@ -27,7 +27,7 @@ Map4(Error) -> To Track the Error job/nodes/scripts.
 
 C) How do you trigger the scripts based on the dependency? (Note- This needs to consider since, we can't traverse the tree everytime we need to find the dependency)
 ----------------------------------------------------------------------------------------------------------------------------------------
-We'll be keep searching the status of jobs in Map2 after every specific interval of time(Say 3 seconds).
+We'll be keep searching the status of jobs in Map2 after every specific interval of time(Say 3 seconds)(Note- This will happen till we have a root node/node with parent as null present in Map2).
 If the status of the job is complete -> Search in tree for the Parent of the node & it's childs. -> Search for the status of child in Map2. -> If all the childs are completed & present in Map2 then delete the childs from Map2 & start the Parent by putting it in Map3(In Progress).
 ----------------------------------------------------------------------------------------------------------------------------------------
 
