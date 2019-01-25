@@ -40,6 +40,14 @@ In Case a specific execution is required the we'll just need to replace the thre
 
 E) Script parsing-
 ----------------------------------------------------------------------------------------------------------------------------------------
-
+-> Read the script name & identify the target table name
+-> Read the script line by line -> Split the line by spaces -> Search the pattern {[raw|tmp|final].*} -> If pattern is found then add a node in the tree with target table as parent & searched table as child.
 ----------------------------------------------------------------------------------------------------------------------------------------
 
+F) Execution Function-
+----------------------------------------------------------------------------------------------------------------------------------------
+The tree will be having script names as well as table names as dependency.
+-> As per the current scenario if the table is present as child then we won't perform any action & will mark the job as successfull.
+However in actual scenario there will be some script/process running which will either load the table/execute script to load the table/check the data in table to identify that table is updated.
+-> If the job is the sql script then we'll execute the script.
+----------------------------------------------------------------------------------------------------------------------------------------
