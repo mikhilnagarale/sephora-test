@@ -1,5 +1,5 @@
-Data Structure-  
-----------------------------------------------------------------------------------------------------------------------------------------------
+A) Data Structure-  
+----------------------------------------------------------------------------------------------------------------------------------------
 We need a data Structure which can store a node with Multiple child. Since Binary Tree stores only two child we can't consider it.
 We can use B Tree or B+ Tree since they are tree structures & they allow multi child nodes in tree.
 
@@ -9,27 +9,37 @@ After reading the references I've come to conclusion that B+ tree is more suitab
 -> Search is faster since all the data is present in leaf nodes.
 -> Since leaf nodes are connected we don't need to traverse a tree. Traversing a tree is as simple as traversion a list.
 
-------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
 
-Data Structure/ Approach to store the status of each job-
-------------------------------------------------------------------------------------------------------------------------------------------
+B) Data Structure/ Approach to store the status of each job-
+----------------------------------------------------------------------------------------------------------------------------------------
 Assumption- Script Name will be unique across the project
 We'll be using 4 maps (Since the script names are unique I can use map since time complexity for Map/HashMap is O(1)/ Search time is less. Another way is to maintain a Queue using Array/List. If we use queue then we'll need to traverse the queue everytime to search it or need to apply specific search optimization.) 
 Benifit- Search for status of given job is faster.
 
-Map1 -> To Track the job/nodes/scripts which are completed job/nodes/scripts.
-Map2 -> This map will be having the completed job/nodes/scripts same as Map1. the only difference in Map1  & Map2 is once the all childs are completed for one parent then we'll remove the childs from Map2. This is done for quick search on next dependency & start parent quickly.
-Map3 -> To Track the In Progress jobs/nodes/scripts.
-Map4 -> To Track the Error job/nodes/scripts.
+Map1(Completed) -> To Track the job/nodes/scripts which are completed job/nodes/scripts.
+Map2(Completed jobs - Incomplete dependency) -> This map will be having the completed job/nodes/scripts same as Map1. the only difference in Map1  & Map2 is once the all childs are completed for one parent then we'll remove the childs from Map2. This is done for quick search on next dependency & start parent quickly.
+Map3(In Progress) -> To Track the In Progress jobs/nodes/scripts.
+Map4(Error) -> To Track the Error job/nodes/scripts.
 
-------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
 
 
-How do you trigger the scripts based on the dependency? (Note- This needs to consider since, we can't traverse the tree everytime we need to find the dependency)
-----------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------
+C) How do you trigger the scripts based on the dependency? (Note- This needs to consider since, we can't traverse the tree everytime we need to find the dependency)
+----------------------------------------------------------------------------------------------------------------------------------------
+We'll be keep searching the status of jobs in Map2 after every specific interval of time(Say 3 seconds).
+If the status of the job is complete -> Search in tree for the Parent of the node & it's childs. -> Search for the status of child in Map2. -> If all the childs are completed & present in Map2 then delete the childs from Map2 & start the Parent by putting it in Map3(In Progress).
+----------------------------------------------------------------------------------------------------------------------------------------
 
-How to execute & maintain scripts in parallel?
-----------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------
+D) How to execute & maintain scripts in parallel?
+----------------------------------------------------------------------------------------------------------------------------------------
+As of now there is no specific execution mechanism is required. As per the sample given we'll just start a thread & sleep for some time.
+So we'll be keeping track of thread status in maps.
+In Case a specific execution is required the we'll just need to replace the thread execution with script execution command with status capture command.
+----------------------------------------------------------------------------------------------------------------------------------------
+
+E) Script parsing-
+----------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------
 
