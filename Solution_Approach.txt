@@ -9,11 +9,20 @@ After reading the references I've come to conclusion that B+ tree is more suitab
 -> Search is faster since all the data is present in leaf nodes.
 -> Since leaf nodes are connected we don't need to traverse a tree. Traversing a tree is as simple as traversion a list.
 
-----------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
 
 Data Structure/ Approach to store the status of each job-
-----------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+Assumption- Script Name will be unique across the project
+We'll be using 4 maps (Since the script names are unique I can use map since time complexity for Map/HashMap is O(1)/ Search time is less. Another way is to maintain a Queue using Array/List. If we use queue then we'll need to traverse the queue everytime to search it or need to apply specific search optimization.) 
+Benifit- Search for status of given job is faster.
+
+Map1 -> To Track the job/nodes/scripts which are completed job/nodes/scripts.
+Map2 -> This map will be having the completed job/nodes/scripts same as Map1. the only difference in Map1  & Map2 is once the all childs are completed for one parent then we'll remove the childs from Map2. This is done for quick search on next dependency & start parent quickly.
+Map3 -> To Track the In Progress jobs/nodes/scripts.
+Map4 -> To Track the Error job/nodes/scripts.
+
+------------------------------------------------------------------------------------------------------------------------------------------
 
 
 How do you trigger the scripts based on the dependency? (Note- This needs to consider since, we can't traverse the tree everytime we need to find the dependency)
