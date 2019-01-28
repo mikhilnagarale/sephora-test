@@ -22,6 +22,16 @@ Map2(Completed jobs - Incomplete dependency) -> This map will be having the comp
 Map3(In Progress) -> To Track the In Progress jobs/nodes/scripts.
 Map4(Error) -> To Track the Error job/nodes/scripts.
 
+----Change----------------
+Checked few online references to understand the popuation of data in Btree-
+
+Ref: http://condor.depaul.edu/ichu/csc383/notes/notes7/btree.html
+
+In BTree there is logic based on number value Less/Grater than current nuber to insert node in tree.
+Hence Tree can not be used as a suitable Data Structure for this case.
+
+Currently checking Directed Acyclic Graph for this use case.
+
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 
