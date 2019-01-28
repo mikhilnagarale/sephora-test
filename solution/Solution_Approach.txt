@@ -32,6 +32,17 @@ Hence Tree can not be used as a suitable Data Structure for this case.
 
 Currently checking Directed Acyclic Graph for this use case.
 
+-------Approach for Traverse & use of DAG------------------
+Checked the Tree/Graph traversal approach
+BFS - Breadth First Search (Ref:https://en.wikipedia.org/wiki/Breadth-first_search)
+DFS - Depth First Search (https://en.wikipedia.org/wiki/Depth-first_search)
+
+->Breadth first search is not useful in this problem.
+->Result of Depth First Search is useful for this problem. DFS returns the vertices odering in three ways Preordering,Porstordering,Reverse Postordering.
+
+-> DFS output -> Postordering can be used to execute the scripts in reverse order (Note-This is only not enough to implement the problem completely. As with postordering i'll be able to execute script in correct order but i won't be able to execute the scripts in parallel.)
+
+----Need to check further for parallel execution------------
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 
