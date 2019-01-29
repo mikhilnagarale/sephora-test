@@ -22,11 +22,16 @@ func check(e error){
 
 func getDirectories(path string)string{
 out,err:=exec.Command("ls","-lrt",path).Output()
-
 check(err)
 return string(out)
-
 }
+
+func getFileData(path string)string{
+out,err:=exec.Command("cat",path).Output()
+check(err)
+return string(out)
+}
+
 func main(){
 
 basePath := "/home/maersk/test_data/git"
@@ -36,6 +41,7 @@ myVertices := map[string]Node{}
 fmt.Println(myVertices)
 for i := range checkFolders{
         output := getDirectories(basePath+"/"+checkFolders[i])
+        folderPath := basePath+"/"+checkFolders[i]
         lines := strings.Split(output,"\n")
         schema := checkFolders[i]
         for lineNo := range lines{
@@ -54,7 +60,22 @@ for i := range checkFolders{
                         myVertices[tblName]= Node{parentL:[]string{},childL:[]string{lineSplit[8]}}
                 //Adding .sql script as a Node & target table as it's parent
                         myVertices[lineSplit[8]]= Node{parentL:[]string{tblName},childL:[]string{}}
-                //Read the script Line by Line & add the dependencies accordingly
+                //Read the script Line by Line & add the dependencies accordingly : getFileData
+                        filePath := folderPath+"/"+lineSplit[8]
+                        //fmt.Println(filePath)
+                        fileData := getFileData(filePath)
+                        //fmt.Println(fileData)
+                        fileLines := strings.Split(fileData,"\n")
+                        for fileLineNo := range fileLines{
+                                fileLineSplits := strings.Split(fileLines[fileLineNo]," ")
+                                for splitIndex := range fileLineSplits{
+                                        if strings.Contains(fileLineSplits[splitIndex],"raw.")||strings.Contains(fileLineSplits[splitIndex],"final.")||strings.Contains(fileLineSplits[splitIndex],"tmp.")              {
+                                                childTbl := strings.Trim(fileLineSplits[splitIndex],"`")
+                                                fmt.Println(lineSplit[8]+"<-"+childTbl)
+                                                //Add the identified
+                                                }
+                                        }
+                                }
                         }
                 }
         }
@@ -70,4 +91,5 @@ for i := range checkFolders{
         }
 fmt.Println(myVertices)
 }
+
 
