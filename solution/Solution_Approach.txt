@@ -43,6 +43,26 @@ DFS - Depth First Search (https://en.wikipedia.org/wiki/Depth-first_search)
 -> DFS output -> Postordering can be used to execute the scripts in reverse order (Note-This is only not enough to implement the problem completely. As with postordering i'll be able to execute script in correct order but i won't be able to execute the scripts in parallel.)
 
 ----Need to check further for parallel execution------------
+Checked that Graph will be the most appropriate data structure for this.
+
+Traversal- If we traverse BFS for the graph & start executing node in reverse order then we'll get all the nodes at deepest level/leaf nodes.
+
+Graph Implementation- Checked few implementation of Graph &  some of them are having BFS & DFS. 
+For this implementation i need to do changes in Graph implementation. 
+->The node type is int which I need to change to string.
+->In place of node value I need to store two lists one for parent & one for child.
+->As underline data structure for node in Map in general for Vertex search then it should be giving constant time to search a vertex in given graph. So if my node is already having Parent-Child relationship(Lists) then it'll be always constant time to get parent & child for given node.
+
+
+As of now i've decided to go with Map as my base Data Structure instead of Graph(As I'll need to do changes in Graph which will take more time).
+
+Impact- The only impact for my approach is in identification of leaf nodes. Since I'm using Map then I'll need to traverse entire map at least once to get leaf nodes.
+
+If I would have/ implement the Graph then I can use BFS & traverse the BFS result in reverse order then all the leaf nodes will be present initially & using degree methos I can get the leaf nodes. 
+
+
+
+
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 
