@@ -36,11 +36,13 @@ return string(out)
 
 func startNode(script string, myVertices *map[string]Node){
 sleepSeconds := 1+rand.Intn(10)
-fmt.Println("Started the execution/loading of "+script  )
-(*myVertices)[script].message[0] = 0
-time.Sleep(time.Duration(sleepSeconds)*time.Second)
-(*myVertices)[script].message[0] = 1
-fmt.Println("Completed the execution/loading of "+script  )
+if (*myVertices)[script].message[0] == -1{
+        fmt.Println("Started the execution/loading of "+script  )
+        (*myVertices)[script].message[0] = 0
+        time.Sleep(time.Duration(sleepSeconds)*time.Second)
+        (*myVertices)[script].message[0] = 1
+        fmt.Println("Completed the execution/loading of "+script  )
+        }
 }
 
 
@@ -141,7 +143,7 @@ for len(inProgress)!=0  {
         if (myVertices[inProgressKey].message[0]==1){
                 //Check Parent Status
                 for parentKey := range myVertices[inProgressKey].parentL{
-                        fmt.Println("checking Parent "+parentKey,myVertices[inProgressKey].message[0])
+                        fmt.Println("checking Parent "+parentKey,myVertices[parentKey].message[0])
                         //Check Parent's Child Status
                         noOfChild := len(myVertices[parentKey].childL)
                         completedChild := 0
@@ -160,7 +162,9 @@ for len(inProgress)!=0  {
                                 inProgress[parentKey] = ""
                                 }
                         }
-
+                //Added this delay since the loop is checking next parent before startNode() process starts the previous parent.
+                //This was causing issue when two childs had same parent.
+                time.Sleep(1*time.Second)
                 }
                 //remove completed child
                 delete(inProgress,inProgressKey)
@@ -169,12 +173,12 @@ for len(inProgress)!=0  {
         }
         //fmt.Println(myVertices)
         fmt.Println(inProgress)
-        fmt.Println(totalNoOfVertices,incompleteVertices)
+        fmt.Printf("totalNoOfVertices=%d,incompleteVertices=%d\n",totalNoOfVertices,incompleteVertices)
         time.Sleep(10*time.Second)
         }
         fmt.Println(myVertices)
         fmt.Println(inProgress)
-        fmt.Println(totalNoOfVertices,incompleteVertices)
+        fmt.Printf("totalNoOfVertices=%d,incompleteVertices=%d\n",totalNoOfVertices,incompleteVertices)
         time.Sleep(10*time.Second)
 }
 
