@@ -1,0 +1,37 @@
+A) Data Structure- 
+We need a data structure which will  store the data related to each element.
+Base Data Structure-
+-> Class/Struct/Object/Node (struct Node)-
+   Base data structure will contain below details-
+   1) Parent List (parentL)
+   2) Child List (childL)
+   3) Status of execution of current script/table/Job (message)
+-> Data Structre which will store the above base data structure (myVertices)
+   In this approach we'll be using Map which will store the Node.
+-> Data Structure to store In Progress Jobs (inProgress)
+   In this scenario we'll use Map to store in Progress jobs/nodes/scripts/tables 
+   
+B) Execution Approach-
+   1) Traverse the directories in order raw/tmp/final.
+   2) If the file name is for table(i.e don't have .sql in name) then create a node with empty parentL & childL . Add this Node to Map(myVertices).
+   3) If the file name is sql script(i.e have .sql in name) then first create the table with schema name as current directory as target Node (table) for this script.
+      then create Node for script & add the parent and child accordingly.
+   4) Read the script line by line & identify the tables & start updating parentL &  childL accordingly.
+   5) Once the map is ready....
+   6) Traverse the Map from start to end once & identify leaf nodes(i.e Nodes with no child) and start the leaf nodes.
+   7) Created method startNode to start the node. This method is executed using go routines to implent parallelism.
+   8) While starting the node add the key in inProgress map. This is used since we'll be only tracking the in Progress nodes and dependencies will also be searched for each in progress node.
+   9) Script will execute the below check till there are elements in inProgress map.
+   10) Now script will check if any node in inProgress queue is completed.
+   11) If the node is completed for in progress queue then it'll get the parent & then for the parent it'll get the childs.
+   12) If all the childs for the parent are completed then it'll start the parent node.
+   13) After above check script will delete the node which was completed from inProgress queue.
+
+C) Parallel Execution-
+   To execute the scripts in parallel I've used go routines. 
+   
+   
+ c) Execution -
+ go run sampleTest.go "<location of the base directory where lookup folders (raw/tmp/final) as kept>"
+ 
+ 
