@@ -13,6 +13,8 @@ import ("fmt"
 type Node struct{
         parentL  map[string]string
         childL   map[string]string
+        //message is for current Node status
+        //-1 = Job Not Started //0 = Job Started //1 = Job Completed
         message  []int
 }
 
