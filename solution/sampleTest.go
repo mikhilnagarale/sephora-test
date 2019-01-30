@@ -6,6 +6,7 @@ import ("fmt"
 //        "io/ioutil"
         "math/rand"
         "time"
+        "os"
 )
 
 
@@ -50,7 +51,8 @@ if (*myVertices)[script].message[0] == -1{
 
 func main(){
 
-basePath := "/home/maersk/test_data/git"
+//basePath := "/home/maersk/test_data/git"
+basePath := os.Args[1]
 checkFolders := []string{"raw","tmp","final"}
 //Declaring Map to hold Parent-Child relationship
 myVertices := make(map[string]Node)
