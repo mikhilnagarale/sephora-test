@@ -9,9 +9,9 @@ import ("fmt"
 
 //L at the end indicates
 type Node struct{
-        name string
         parentL  map[string]string
         childL   map[string]string
+        message  chan int
 }
 
 func check(e error){
@@ -52,7 +52,7 @@ for i := range checkFolders{
                 //Adding table Name with Schema in Map myVertices
                 if !(strings.Contains(lineSplit[0],".sql")){
                         tblName := schema+"."+lineSplit[0]
-                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{}}
+                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{},message:make(chan int)}
                         }
                 //If the given element is .sql script then add the target table in Map and then add current script as node & then add
                 //target table as a parent to script
@@ -61,9 +61,9 @@ for i := range checkFolders{
                         tblName := schema+"."+strings.Replace(lineSplit[0],".sql","",1)
                         //fmt.Println(tblName)
                         sqlScriptName := lineSplit[0]
-                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{lineSplit[0]:""}}
+                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{lineSplit[0]:""},message:make(chan int)}
                 //Adding .sql script as a Node & target table as it's parent
-                        myVertices[sqlScriptName]= Node{parentL:map[string]string{tblName:""},childL:map[string]string{}}
+                        myVertices[sqlScriptName]= Node{parentL:map[string]string{tblName:""},childL:map[string]string{},message:make(chan int)}
                 //Read the script Line by Line & add the dependencies accordingly : getFileData
                         filePath := folderPath+"/"+lineSplit[0]
                         //fmt.Println(filePath)
