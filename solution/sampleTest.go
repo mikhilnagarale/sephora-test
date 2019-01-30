@@ -4,6 +4,8 @@ import ("fmt"
         "os/exec"
         "strings"
 //        "io/ioutil"
+        "math/rand"
+        "time"
 )
 
 
@@ -11,7 +13,7 @@ import ("fmt"
 type Node struct{
         parentL  map[string]string
         childL   map[string]string
-        message  chan int
+        message  []int
 }
 
 func check(e error){
@@ -32,12 +34,26 @@ check(err)
 return string(out)
 }
 
+func startNode(script string, myVertices *map[string]Node){
+sleepSeconds := 1+rand.Intn(10)
+fmt.Println("Started the execution/loading of "+script  )
+(*myVertices)[script].message[0] = 0
+time.Sleep(time.Duration(sleepSeconds)*time.Second)
+(*myVertices)[script].message[0] = 1
+fmt.Println("Completed the execution/loading of "+script  )
+}
+
+
 func main(){
 
 basePath := "/home/maersk/test_data/git"
 checkFolders := []string{"raw","tmp","final"}
 //Declaring Map to hold Parent-Child relationship
 myVertices := make(map[string]Node)
+//This Array will have scripts/nodes which are currently running
+inProgress := map[string]string{}
+totalNoOfVertices := 0
+incompleteVertices := 0
 //fmt.Println(myVertices)
 for i := range checkFolders{
         output := getDirectories(basePath+"/"+checkFolders[i])
@@ -52,7 +68,7 @@ for i := range checkFolders{
                 //Adding table Name with Schema in Map myVertices
                 if !(strings.Contains(lineSplit[0],".sql")){
                         tblName := schema+"."+lineSplit[0]
-                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{},message:make(chan int)}
+                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{},message:[]int{-1}}
                         }
                 //If the given element is .sql script then add the target table in Map and then add current script as node & then add
                 //target table as a parent to script
@@ -60,10 +76,11 @@ for i := range checkFolders{
                 if strings.Contains(lineSplit[0],".sql"){
                         tblName := schema+"."+strings.Replace(lineSplit[0],".sql","",1)
                         //fmt.Println(tblName)
-                        sqlScriptName := lineSplit[0]
-                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{lineSplit[0]:""},message:make(chan int)}
+                        sqlScript := lineSplit[0]
+                        sqlScriptName := schema+"."+sqlScript
+                        myVertices[tblName]= Node{parentL: map[string]string{},childL: map[string]string{sqlScriptName:""},message:[]int{-1}}
                 //Adding .sql script as a Node & target table as it's parent
-                        myVertices[sqlScriptName]= Node{parentL:map[string]string{tblName:""},childL:map[string]string{},message:make(chan int)}
+                        myVertices[sqlScriptName]= Node{parentL:map[string]string{tblName:""},childL:map[string]string{},message:[]int{-1}}
                 //Read the script Line by Line & add the dependencies accordingly : getFileData
                         filePath := folderPath+"/"+lineSplit[0]
                         //fmt.Println(filePath)
@@ -98,10 +115,67 @@ for i := range checkFolders{
 
 
 
-
-
         }
-fmt.Println(myVertices)
+
+
+
+totalNoOfVertices = len(myVertices)
+incompleteVertices = len(myVertices)
+fmt.Println(incompleteVertices)
+
+
+//fmt.Println(myVertices)
+//startNode("raw.inventory_items",&myVertices)
+
+//Traverse the Map - myVertices & start the leaf nodes / nodes with no child
+for key := range myVertices{
+        //fmt.Println(myVertices[key],len(myVertices[key].childL))
+        if len(myVertices[key].childL)==0{
+        go startNode(key,&myVertices)
+        inProgress[key] = ""
+        }
+}
+
+for len(inProgress)!=0  {
+        for inProgressKey := range inProgress{
+        if (myVertices[inProgressKey].message[0]==1){
+                //Check Parent Status
+                for parentKey := range myVertices[inProgressKey].parentL{
+                        fmt.Println("checking Parent "+parentKey,myVertices[inProgressKey].message[0])
+                        //Check Parent's Child Status
+                        noOfChild := len(myVertices[parentKey].childL)
+                        completedChild := 0
+                        for childKey := range myVertices[parentKey].childL{
+                                fmt.Println("checking childs "+childKey,myVertices[childKey].message[0])
+                                //Parent's action based on Child status
+                                if myVertices[childKey].message[0]==1{
+                                        completedChild = completedChild + 1
+                                }
+                        }
+                        //Check If all Child for current Parent are completed. If yes then start the current Parent.
+                        if completedChild == noOfChild{
+                                //Check if Parent Node is already started then only start the parent
+                                if myVertices[parentKey].message[0]==-1{
+                                go startNode(parentKey,&myVertices)
+                                inProgress[parentKey] = ""
+                                }
+                        }
+
+                }
+                //remove completed child
+                delete(inProgress,inProgressKey)
+                incompleteVertices = incompleteVertices-1
+                }
+        }
+        //fmt.Println(myVertices)
+        fmt.Println(inProgress)
+        fmt.Println(totalNoOfVertices,incompleteVertices)
+        time.Sleep(10*time.Second)
+        }
+        fmt.Println(myVertices)
+        fmt.Println(inProgress)
+        fmt.Println(totalNoOfVertices,incompleteVertices)
+        time.Sleep(10*time.Second)
 }
 
 
