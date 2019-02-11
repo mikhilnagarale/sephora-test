@@ -92,3 +92,19 @@ The tree will be having script names as well as table names as dependency.
 However in actual scenario there will be some script/process running which will either load the table/execute script to load the table/check the data in table to identify that table is updated.
 -> If the job is the sql script then we'll execute the script.
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+G) Visualization - 
+----------------------------------------------------------------------------------------------------------------------------------------
+I checked few options for Visualization of Graph & Querying the graph.
+I've decided to go for Ne04j. It uses Cyper(Query language to insert data in it. Which is easy to learn & query the graph).
+Also it has default browser to visualize the graph which is projected from the data in graph. Since I'm doing it on office PC I can't 
+have my own instance of Neo4j.
+
+I've found one free instance to check my queries-
+http://console.neo4j.org/
+
+Further steps- Check how to write Cypher(Neo4j has free tutorials)
+Ref-https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/part-1/
+
+Working on it...
+----------------------------------------------------------------------------------------------------------------------------------------
