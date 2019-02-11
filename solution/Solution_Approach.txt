@@ -106,5 +106,7 @@ http://console.neo4j.org/
 Further steps- Check how to write Cypher(Neo4j has free tutorials)
 Ref-https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/part-1/
 
-Working on it...
+Created the graph-
+http://console.neo4j.org/r/vdd402
+
 ----------------------------------------------------------------------------------------------------------------------------------------
