@@ -34,4 +34,20 @@ C) Parallel Execution-
  c) Execution -
  go run sampleTest.go "<location of the base directory where lookup folders (raw/tmp/final) as kept>"
  
+ d) Visualization - 
+
+I checked few options for Visualization of Graph & Querying the graph.
+I've decided to go for Ne04j. It uses Cyper(Query language to insert data in it. Which is easy to learn & query the graph).
+Also it has default browser to visualize the graph which is projected from the data in graph. Since I'm doing it on office PC I can't 
+have my own instance of Neo4j.
+
+I've found one free instance to check my queries-
+http://console.neo4j.org/
+
+Further steps- Check how to write Cypher(Neo4j has free tutorials)
+Ref-https://neo4j.com/graphacademy/online-training/introduction-to-neo4j/part-1/
+
+Created the graph-
+http://console.neo4j.org/r/vdd402
+
  
